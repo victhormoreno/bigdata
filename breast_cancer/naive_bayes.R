@@ -15,23 +15,75 @@ breast_cancer_train_features <- breast_cancer_train[, -which(names(breast_cancer
 breast_cancer_test_labels <- breast_cancer_test$diagnosis
 breast_cancer_test_features <- breast_cancer_test[, -which(names(breast_cancer_test) == "diagnosis")]
 
-# Entrenar el modelo Naive Bayes
-breast_cancer_classifier <- naiveBayes(breast_cancer_train_features, breast_cancer_train_labels)
 
-# Realizar predicciones en el conjunto de prueba
-breast_cancer_test_pred <- predict(breast_cancer_classifier, breast_cancer_test_features)
-
-# Evaluar el rendimiento del modelo
-tab <- table(breast_cancer_test_labels, breast_cancer_test_pred)
-print("Confusion Matrix:")
-print(tab)
-
-round(prop.table(tab) * 100, digits = 2)
 
 # Con laplace
 breast_cancer_classifier <- naiveBayes(breast_cancer_train_features, breast_cancer_train_labels,laplace = 1)
 breast_cancer_test_pred <- predict(breast_cancer_classifier, breast_cancer_test_features)
-tab <- table(breast_cancer_test_labels, breast_cancer_test_pred)
+confusion_matrix <- table(breast_cancer_test_labels, breast_cancer_test_pred)
 print("Confusion Matrix:")
-print(tab)
-round(prop.table(tab) * 100, digits = 2)
+print(confusion_matrix)
+round(prop.table(confusion_matrix) * 100, digits = 2)
+
+# Calcular la precisión, sensibilidad y especificidad
+precision <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+sensibilidad <- confusion_matrix[2, 2] / sum(confusion_matrix[2, ])
+especificidad <- confusion_matrix[1, 1] / sum(confusion_matrix[1, ])
+
+# Imprimir métricas de rendimiento
+print(paste("Precisión:", precision))
+print(paste("Recall:", sensibilidad))
+
+# Calcular la puntuación F
+f_score <- 2 * (precision * sensibilidad) / (precision + sensibilidad)
+
+# Imprimir la puntuación F
+print(paste("Puntuación F:", f_score))
+
+# usekernel
+breast_cancer_classifier <- naiveBayes(breast_cancer_train_features, breast_cancer_train_labels, usekernel = TRUE)
+breast_cancer_test_pred <- predict(breast_cancer_classifier, breast_cancer_test_features)
+confusion_matrix <- table(breast_cancer_test_labels, breast_cancer_test_pred)
+print("Confusion Matrix:")
+print(confusion_matrix)
+round(prop.table(confusion_matrix) * 100, digits = 2)
+
+# Calcular la precisión, sensibilidad y especificidad
+precision <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+sensibilidad <- confusion_matrix[2, 2] / sum(confusion_matrix[2, ])
+especificidad <- confusion_matrix[1, 1] / sum(confusion_matrix[1, ])
+
+# Imprimir métricas de rendimiento
+print(paste("Precisión:", precision))
+print(paste("Recall:", sensibilidad))
+
+# Calcular la puntuación F
+f_score <- 2 * (precision * sensibilidad) / (precision + sensibilidad)
+
+# Imprimir la puntuación F
+print(paste("Puntuación F:", f_score))
+
+
+
+# sin laplace
+breast_cancer_classifier <- naiveBayes(breast_cancer_train_features, breast_cancer_train_labels)
+breast_cancer_test_pred <- predict(breast_cancer_classifier, breast_cancer_test_features)
+confusion_matrix <- table(breast_cancer_test_labels, breast_cancer_test_pred)
+print("Confusion Matrix:")
+print(confusion_matrix)
+round(prop.table(confusion_matrix) * 100, digits = 2)
+
+# Calcular la precisión, sensibilidad y especificidad
+precision <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+sensibilidad <- confusion_matrix[2, 2] / sum(confusion_matrix[2, ])
+especificidad <- confusion_matrix[1, 1] / sum(confusion_matrix[1, ])
+
+# Imprimir métricas de rendimiento
+print(paste("Precisión:", precision))
+print(paste("Recall:", sensibilidad))
+
+# Calcular la puntuación F
+f_score <- 2 * (precision * sensibilidad) / (precision + sensibilidad)
+
+# Imprimir la puntuación F
+print(paste("Puntuación F:", f_score))

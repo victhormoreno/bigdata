@@ -20,18 +20,29 @@ breast_cancer_test_features <- breast_cancer_test[, -which(names(breast_cancer_t
 
 kernels <- c("vanilladot", "rbfdot", "polydot")
 for (k in kernels) {
-  svm_model <- ksvm(diagnosis~.,data=breast_cancer_train,kernel=k)
+  svm_model <- ksvm(diagnosis~radius_mean+texture_mean+smoothness_mean+concavity_mean+symmetry_mean+points_mean,data=breast_cancer_train,kernel=k)
   
   # Realizar predicciones en el conjunto de prueba
   svm_test_pred <- predict(svm_model, breast_cancer_test)
   
   # Evaluar el rendimiento del modelo
-  tab <- table(breast_cancer_test_labels, svm_test_pred)
+  confusion_matrix <- table(breast_cancer_test_labels, svm_test_pred)
   print(paste("Kernel:", k))
   print("Confusion Matrix:")
-  print(tab)
+  print(confusion_matrix)
+  # Calcular la precisión, sensibilidad y especificidad
+  precision <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+  sensibilidad <- confusion_matrix[2, 2] / sum(confusion_matrix[2, ])
+  especificidad <- confusion_matrix[1, 1] / sum(confusion_matrix[1, ])
   
-  print("Accuracy:")
-  print(round(sum(diag(tab))/sum(tab), digits=4))
-  cat("\n")
+  # Imprimir métricas de rendimiento
+  print(paste("Precisión:", precision))
+  print(paste("Recall:", sensibilidad))
+  
+  # Calcular la puntuación F
+  f_score <- 2 * (precision * sensibilidad) / (precision + sensibilidad)
+  
+  # Imprimir la puntuación F
+  print(paste("Puntuación F:", f_score))
+  
 }
