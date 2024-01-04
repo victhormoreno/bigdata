@@ -1,9 +1,15 @@
 # Exercise one: Simulation to estimate the probability of getting a lucky number
 
 # Function to transform a non-negative integer into a list of digits
-int_to_digits <- function(num) {
-  as.numeric(strsplit(as.character(num), '')[[1]])
-}
+  int_to_digits <- function(num) {
+    num_str = strsplit(as.character(num), '')[[1]]
+    if(length(num_str)<6){
+      ceros_faltantes <- 6 - length(num_str)
+      return (c(rep(0, ceros_faltantes), as.numeric(num_str)))
+    } else{
+      return (as.numeric(num_str[1:6]))
+    }   
+  }
 
 # Function to check if a number is lucky
 is_lucky <- function(num) {
@@ -15,7 +21,7 @@ is_lucky <- function(num) {
 
 # Simulation
 set.seed(123)  # Set seed for reproducibility
-num_simulations <- 10000
+num_simulations <- 1000
 lucky_numbers_sim <- sum(replicate(num_simulations, is_lucky(sample(0:999999, num_simulations, replace = TRUE))))
 
 # Estimate probability from simulation

@@ -20,7 +20,7 @@ corrplot(corr_matrix, method = "color")
 pairs(election_data[, c("Obama", "McCain", "Turnout", "Unemployment", "Income", "Population")])
 
 # Scatter plots using lattice
-xyplot(Obama + McCain + Turnout + Unemployment + Income + Population ~ 1, data = election_data)
+xyplot(McCain ~ Obama, data = obama_vs_mccain, main = "Obama vs. McCain", xlab = "Obama", ylab = "McCain")
 
 # Scatter plots using ggplot2
 ggplot(election_data, aes(x = Obama, y = McCain)) +  geom_point() +  facet_grid(. ~ Region)  

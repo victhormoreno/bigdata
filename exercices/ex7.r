@@ -7,7 +7,7 @@ fabius_sieve <- function(N) {
   return(sequence)
 }
 
-N <- 10000
+N <- 100000
 fabius_sequence <- fabius_sieve(N)
 plot(fabius_sequence, type = "b", pch = 19, col = "blue",main = "Fabius Sieve Sequence", xlab = "Index", ylab = "Value")
 grid()
