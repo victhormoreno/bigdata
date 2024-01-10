@@ -1,18 +1,17 @@
-mydet <- function(matrix) {
-  n <- nrow(matrix)
+mydet <- function(mat) {
+  n <- nrow(mat)
   
   if (n == 1) {
-    return(matrix[1, 1])
+    return(mat[1, 1])
+  }else{
+    det_val<-0
+    for(j in 1:n){
+      sign <- (-1)^(1+j)
+      minor_mat <- mat[-1,-j,drop=FALSE]
+      det_val <- det_val + sign * mat[1,j] * mydet(minor_mat)
+    }
+    return(det_val)
   }
-  
-  determinant <- 0
-  for (i in 1:n) {
-    sign <- (-1)^(i+1)
-    sub_matrix <- matrix[-1, -i, drop = FALSE]
-    determinant <- determinant + sign * matrix[1, i] * mydet(sub_matrix)
-  }
-  
-  return(determinant)
 }
 
 # Example usage:
